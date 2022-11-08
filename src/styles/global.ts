@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
     *{
@@ -20,3 +20,13 @@ export const GlobalStyles = createGlobalStyle`
         font: 400 1rem Roboto, sans-serif;
     }
 `;
+
+export const alignContentDefault = css`
+  max-width: ${transformPxInRem(1200)};
+  margin: 0 auto;
+  padding: 0 1.5rem;
+`;
+
+export function transformPxInRem(px: number): string {
+  return `${px / 16}rem`;
+}
