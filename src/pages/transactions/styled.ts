@@ -10,7 +10,7 @@ export const TransactionsTable = styled.table`
   border-collapse: separate;
   border-spacing: 0 0.5rem;
   width: 100%;
-  /* margin-top: 1.5rem; */
+  margin-top: 1.5rem;
   td {
     padding: 1.25rem;
     background: ${(props) => props.theme["gray-700"]};
