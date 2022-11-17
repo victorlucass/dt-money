@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { Header } from "../../components/header";
 import { Summary } from "../../components/summary";
+import { TransactionsType } from "../../models/transactions";
 import { SearchForm } from "./components/searchForm";
 import {
   PriceHighlight,
@@ -8,6 +10,15 @@ import {
 } from "./styled";
 
 export function Transactions() {
+  async function getTransactions() {
+    const response = await fetch("http://localhost:3333/transactions");
+    const data = await response.json();
+    setTransactions(data);
+  }
+  const [transactions, setTransactions] = useState<TransactionsType[]>([]);
+  useEffect(() => {
+    getTransactions();
+  }, []);
   return (
     <div>
       <Header />
@@ -16,22 +27,20 @@ export function Transactions() {
         <SearchForm></SearchForm>
         <TransactionsTable>
           <tbody>
-            <tr>
-              <td width="50%">Desenvolvimento de site</td>
-              <td>
-                <PriceHighlight variant="in">R$12.000,00</PriceHighlight>
-              </td>
-              <td>Venda</td>
-              <td>13/04/2022</td>
-            </tr>
-            <tr>
-              <td>Hamburguer</td>
-              <td>
-                <PriceHighlight variant="out">- R$ 59,00</PriceHighlight>
-              </td>
-              <td>Alimentação</td>
-              <td>10/04/2022</td>
-            </tr>
+            {transactions.map((transaction: TransactionsType) => {
+              return (
+                <tr key={transaction.id}>
+                  <td width="50%">{transaction.description}</td>
+                  <td>
+                    <PriceHighlight variant={transaction.type}>
+                      {transaction.price}
+                    </PriceHighlight>
+                  </td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.createdAt}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </TransactionsTable>
       </TransactionsContainer>
