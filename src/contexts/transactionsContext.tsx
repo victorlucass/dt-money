@@ -16,9 +16,6 @@ export const TransactionsContext = createContext({} as TransactionContextType)
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<TransactionsType[]>([])
-  useEffect(() => {
-    fetchTransactions()
-  }, [])
   const fetchTransactions = useCallback(async (query?: string) => {
     const response = await api.get('/transactions', {
       params: {
@@ -42,6 +39,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     })
     setTransactions((state) => [response.data, ...state])
   }, [])
+
+  useEffect(() => {
+    fetchTransactions()
+  }, [fetchTransactions])
   return (
     <TransactionsContext.Provider
       value={{ transactions, fetchTransactions, postCreate }}
