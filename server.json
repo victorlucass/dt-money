@@ -31,6 +31,30 @@
       "category": "Alimentação",
       "price": 50,
       "createdAt": "2022-07-29T19:30:44.505Z"
+    },
+    {
+      "category": "teste",
+      "description": "teste",
+      "price": 13,
+      "type": "in",
+      "createdAt": "2022-11-18T05:07:50.565Z",
+      "id": 5
+    },
+    {
+      "category": "teste",
+      "description": "teste2",
+      "price": 54,
+      "type": "in",
+      "createdAt": "2022-11-18T05:08:25.839Z",
+      "id": 6
+    },
+    {
+      "category": "teste",
+      "description": "teste3",
+      "price": 12,
+      "type": "out",
+      "createdAt": "2022-11-18T05:13:30.154Z",
+      "id": 7
     }
   ]
 }
