@@ -8,14 +8,14 @@ import {
   TransactionTypeButton,
 } from "./styled";
 import * as zod from "zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const newTransactionFormSchema = zod.object({
   description: zod.string(),
   price: zod.number(),
   category: zod.string(),
-  // type: zod.enum(["in", "out"]),
+  type: zod.enum(["in", "out"]),
 });
 
 type NewTransactionType = zod.infer<typeof newTransactionFormSchema>;
@@ -25,8 +25,12 @@ export function NewTransactionModal() {
     register,
     handleSubmit,
     formState: { isSubmitting },
+    control,
   } = useForm<NewTransactionType>({
     resolver: zodResolver(newTransactionFormSchema),
+    defaultValues: {
+      type: "in",
+    },
   });
   function handleCreateNewTransaction(data: NewTransactionType) {
     console.log(data);
@@ -61,16 +65,27 @@ export function NewTransactionModal() {
             required
             {...register("category")}
           />
-          <TransactionType>
-            <TransactionTypeButton variant="in" value="income">
-              <ArrowCircleUp size={24} />
-              Entrada
-            </TransactionTypeButton>
-            <TransactionTypeButton variant="out" value="outcome">
-              <ArrowCircleDown size={24} />
-              Saída
-            </TransactionTypeButton>
-          </TransactionType>
+          <Controller
+            control={control}
+            name="type"
+            render={(props) => {
+              return (
+                <TransactionType
+                  onValueChange={props.field.onChange}
+                  value={props.field.value}
+                >
+                  <TransactionTypeButton variant="in" value="in">
+                    <ArrowCircleUp size={24} />
+                    Entrada
+                  </TransactionTypeButton>
+                  <TransactionTypeButton variant="out" value="out">
+                    <ArrowCircleDown size={24} />
+                    Saída
+                  </TransactionTypeButton>
+                </TransactionType>
+              );
+            }}
+          />
           <button type="submit" disabled={isSubmitting}>
             Criar
           </button>
